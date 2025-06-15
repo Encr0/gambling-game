@@ -5,7 +5,6 @@ import json
 import os
 import time
 
-# Define Constants
 INITIAL_MONEY = 1000
 SYMBOLS = ["🍒", "💎", "🔔", "🍋", "7️⃣"]
 THEME_COLORS = {
@@ -30,27 +29,22 @@ class SlotMachine:
         self.parent = parent
         self.casino_app = casino_app
         
-        # Create a new window
         self.window = tk.Toplevel(parent)
         self.window.title("🎰 Tragamonedas")
         self.window.geometry("600x500")
         self.window.resizable(False, False)
         self.window.config(bg=THEME_COLORS[casino_app.theme]["bg"])
         
-        # Make window modal
         self.window.transient(parent)
         self.window.grab_set()
         
-        # Create UI elements
         self.create_widgets()
         
-        # Initialize variables
         self.spinning = False
         self.symbols = []
         self.after_ids = []
     
     def create_widgets(self):
-        # Title
         self.title_label = tk.Label(
             self.window,
             text="🎰 Tragamonedas 🎰",
@@ -60,7 +54,6 @@ class SlotMachine:
         )
         self.title_label.pack(pady=20)
         
-        # Balance
         self.balance_label = tk.Label(
             self.window,
             text=f"💰 Saldo: ${self.casino_app.balance}",
@@ -70,7 +63,6 @@ class SlotMachine:
         )
         self.balance_label.pack(pady=10)
         
-        # Symbols frame
         self.symbols_frame = tk.Frame(
             self.window,
             bg=THEME_COLORS[self.casino_app.theme]["bg"],
@@ -81,7 +73,6 @@ class SlotMachine:
         )
         self.symbols_frame.pack(pady=20)
         
-        # Create symbol labels
         self.symbol_labels = []
         for i in range(3):
             label = tk.Label(
@@ -97,14 +88,12 @@ class SlotMachine:
             label.grid(row=0, column=i, padx=10)
             self.symbol_labels.append(label)
         
-        # Bet frame
         self.bet_frame = tk.Frame(
             self.window,
             bg=THEME_COLORS[self.casino_app.theme]["bg"]
         )
         self.bet_frame.pack(pady=10)
         
-        # Bet label
         self.bet_label = tk.Label(
             self.bet_frame,
             text="Apuesta ($): ",
@@ -113,10 +102,9 @@ class SlotMachine:
             fg=THEME_COLORS[self.casino_app.theme]["fg"]
         )
         self.bet_label.grid(row=0, column=0, padx=5)
-        
-        # Bet entry with validation
+
         self.bet_var = tk.StringVar()
-        self.bet_var.set("10")  # Default bet
+        self.bet_var.set("10")  # apuesta default = 10
         
         vcmd = (self.window.register(self.validate_bet), '%P')
         
@@ -129,8 +117,7 @@ class SlotMachine:
             validatecommand=vcmd
         )
         self.bet_entry.grid(row=0, column=1, padx=5)
-        
-        # Spin button
+
         self.spin_button = tk.Button(
             self.window,
             text="🎮 Girar",
@@ -143,7 +130,7 @@ class SlotMachine:
         )
         self.spin_button.pack(pady=20)
         
-        # Result label
+
         self.result_label = tk.Label(
             self.window,
             text="",
@@ -152,8 +139,7 @@ class SlotMachine:
             fg=THEME_COLORS[self.casino_app.theme]["accent"]
         )
         self.result_label.pack(pady=10)
-        
-        # Close button
+
         self.close_button = tk.Button(
             self.window,
             text="🚪 Cerrar",
@@ -254,28 +240,23 @@ class ScratchCard:
         self.parent = parent
         self.casino_app = casino_app
         
-        # Create a new window
         self.window = tk.Toplevel(parent)
         self.window.title("🎟️ Rasca y Gana")
         self.window.geometry("800x800")
         self.window.resizable(False, False)
         self.window.config(bg=THEME_COLORS[casino_app.theme]["bg"])
         
-        # Make window modal
         self.window.transient(parent)
         self.window.grab_set()
         
-        # Initialize variables
         self.scratched = False
         self.symbols = []
         self.card_buttons = []
-        self.bet_amount = 20  # Fixed bet for scratch cards
+        self.bet_amount = 20  # cuanto cuestan los rasca y gana
         
-        # Create UI elements
         self.create_widgets()
     
     def create_widgets(self):
-        # Title
         self.title_label = tk.Label(
             self.window,
             text="🎟️ Rasca y Gana 🎟️",
@@ -285,7 +266,6 @@ class ScratchCard:
         )
         self.title_label.pack(pady=20)
         
-        # Balance
         self.balance_label = tk.Label(
             self.window,
             text=f"💰 Saldo: ${self.casino_app.balance}",
@@ -295,7 +275,6 @@ class ScratchCard:
         )
         self.balance_label.pack(pady=10)
         
-        # Instructions
         self.instructions_label = tk.Label(
             self.window,
             text=f"Costo por tarjeta: ${self.bet_amount}\nHaz clic en 'Rascar' para revelar los símbolos.\nNecesitas 3 o más símbolos iguales para ganar.",
@@ -305,8 +284,7 @@ class ScratchCard:
             justify=tk.CENTER
         )
         self.instructions_label.pack(pady=10)
-        
-        # Grid frame for scratch card
+
         self.grid_frame = tk.Frame(
             self.window,
             bg=THEME_COLORS[self.casino_app.theme]["bg"],
@@ -317,7 +295,6 @@ class ScratchCard:
         )
         self.grid_frame.pack(pady=20)
         
-        # Create 3x3 grid of buttons
         self.card_buttons = []
         for i in range(3):
             row = []
@@ -336,7 +313,6 @@ class ScratchCard:
                 row.append(button)
             self.card_buttons.append(row)
         
-        # Scratch button
         self.scratch_button = tk.Button(
             self.window,
             text="🪙 Rascar",
@@ -349,7 +325,6 @@ class ScratchCard:
         )
         self.scratch_button.pack(pady=20)
         
-        # Result label
         self.result_label = tk.Label(
             self.window,
             text="",
@@ -359,14 +334,12 @@ class ScratchCard:
         )
         self.result_label.pack(pady=10)
         
-        # Buttons frame
         self.buttons_frame = tk.Frame(
             self.window,
             bg=THEME_COLORS[self.casino_app.theme]["bg"]
         )
         self.buttons_frame.pack(pady=10)
-        
-        # New card button
+
         self.new_card_button = tk.Button(
             self.buttons_frame,
             text="🎟️ Nueva Tarjeta",
@@ -377,8 +350,7 @@ class ScratchCard:
             state=tk.DISABLED
         )
         self.new_card_button.grid(row=0, column=0, padx=5)
-        
-        # Close button
+
         self.close_button = tk.Button(
             self.buttons_frame,
             text="🚪 Cerrar",
@@ -493,16 +465,13 @@ class CasinoGame:
         self.root.geometry("800x600")
         self.root.resizable(False, False)
         
-        # Initialize variables
         self.balance = INITIAL_MONEY
         self.theme = "light"
         self.apply_theme()
         
-        # Create frames
         self.main_frame = tk.Frame(self.root, bg=THEME_COLORS[self.theme]["bg"])
         self.main_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Create label for title
         self.title_label = tk.Label(
             self.main_frame, 
             text="🎰 Casino Virtual", 
@@ -525,7 +494,6 @@ class CasinoGame:
         )
         self.balance_label.pack()
         
-        # Stats frame
         self.stats_frame = tk.Frame(self.main_frame, bg=THEME_COLORS[self.theme]["bg"])
         self.stats_frame.pack(pady=5)
         
@@ -546,12 +514,11 @@ class CasinoGame:
             fg=THEME_COLORS[self.theme]["fg"]
         )
         self.lost_label.pack(side=tk.LEFT, padx=10)
-        
-        # Create button frame
+
         self.button_frame = tk.Frame(self.main_frame, bg=THEME_COLORS[self.theme]["bg"])
         self.button_frame.pack(pady=20)
         
-        # Create buttons
+
         self.slot_button = tk.Button(
             self.button_frame,
             text="🎰 Jugar Tragamonedas",
@@ -611,11 +578,10 @@ class CasinoGame:
         )
         self.theme_button.pack(pady=10)
         
-        # Statistics
+
         self.total_won = 0
         self.total_lost = 0
         
-        # Try to load saved data
         self.load_game_data()
     
     def apply_theme(self):
@@ -630,7 +596,6 @@ class CasinoGame:
             fg=THEME_COLORS[self.theme]["fg"]
         )
         
-        # Update all frames and widgets with new theme
         self.main_frame.config(bg=THEME_COLORS[self.theme]["bg"])
         self.title_label.config(bg=THEME_COLORS[self.theme]["bg"], fg=THEME_COLORS[self.theme]["fg"])
         self.balance_frame.config(bg=THEME_COLORS[self.theme]["bg"])
@@ -640,7 +605,6 @@ class CasinoGame:
         self.lost_label.config(bg=THEME_COLORS[self.theme]["bg"], fg=THEME_COLORS[self.theme]["fg"])
         self.button_frame.config(bg=THEME_COLORS[self.theme]["bg"])
         
-        # Update buttons
         for button in [self.slot_button, self.scratch_button, self.balance_button, self.exit_button]:
             button.config(bg=THEME_COLORS[self.theme]["button"], fg=THEME_COLORS[self.theme]["fg"])
     
@@ -654,7 +618,6 @@ class CasinoGame:
         messagebox.showinfo("💰 Saldo Actual", f"Tu saldo actual es: ${self.balance}\n\nHas ganado: ${self.total_won}\nHas perdido: ${self.total_lost}")
     
     def exit_game(self):
-        # Save game data before exiting
         self.save_game_data()
         self.root.destroy()
     
@@ -665,7 +628,6 @@ class CasinoGame:
         elif not is_win and amount < 0:
             self.total_lost += abs(amount)
         
-        # Update display
         self.balance_label.config(text=f"💰 Saldo: ${self.balance}")
         self.won_label.config(text=f"🤑 Ganado: ${self.total_won}")
         self.lost_label.config(text=f"😭 Perdido: ${self.total_lost}")
@@ -694,7 +656,6 @@ class CasinoGame:
                     self.total_lost = data.get("total_lost", 0)
                     self.theme = data.get("theme", "light")
                     
-                    # Update display
                     self.balance_label.config(text=f"💰 Saldo: ${self.balance}")
                     self.won_label.config(text=f"🤑 Ganado: ${self.total_won}")
                     self.lost_label.config(text=f"😭 Perdido: ${self.total_lost}")
